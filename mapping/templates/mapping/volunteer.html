@@ -1,0 +1,76 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>{% block title %}{% endblock %} - SAYN</title>
+
+  <!-- CSS  -->
+  <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+   
+    <header>
+      <ul id="dropdown1" class="dropdown-content">
+        <li class="bold"><a href="/od/newframework" class="waves-effect waves-teal">NS In NEW FRAMEWORK</a></li>
+        <li class="bold"><a href="/od/nsd" class="waves-effect waves-teal">NATIONAL SOCIETY DEVELOPMENT</a></li>
+        <li class="bold"><a href="/od/youth" class="waves-effect waves-teal">YOUTH </a></li>
+        <li class="bold"><a href="/od/volunteer" class="waves-effect waves-teal">VOLUNTEERING</a></li>
+      </ul>
+      <nav class="top-nav red fixed">
+        <div class="container">
+          <div class="nav-wrapper">
+            <a class="title">{{ title }}</a>
+            <ul class="header-list right">
+                <li><a class="dropdown-button" href="#" data-activates="dropdown1">Organization Development<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+                <li><a href="#">Disaster Management</a></li>
+                <li><a href="#">Health</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+   
+      <ul id="nav-mobile" class="side-nav fixed">
+        <li class="bold"><a href="#" class="waves-effect waves-teal">Volunteering policy and year</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">Volunteer strategy and year</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">volunteering guidelines / Mgt system</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">volunteer database /type</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"># of volunteers</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"># of volunteers w insurance 
+(in year 2014)</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">volunteer recognition system?</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">focal person for volunteering</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"># of members</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"># of youth volunteers</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">Name, Position, Email, Skype of responsible person for volunteering</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">Total Number of staff supporting volunteering in NS</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">No. of RDRT from your NS</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">No. of NDRT/NERT members</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">No. of SDRT/DDRT/ERT</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal">Integration of volunteer management in Contigency Plan?</a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"></a></li>
+        <li class="bold"><a href="#" class="waves-effect waves-teal"></a></li>
+
+      </ul>  
+    </header>
+    
+    <main class="dashboard">
+      <div class="container">
+        <div class="row">
+            <div class="col s12 m10">
+              {% block main %}{% endblock %}
+            </div>
+          </div>
+          {% block action-btn %}
+          {% endblock %}
+        </div>
+    </main>
+
+    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <script src="{% static "js/init.js" %}"></script>
+</body>
+</html>
