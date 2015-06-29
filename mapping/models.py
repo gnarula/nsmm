@@ -2,28 +2,31 @@ from django.db import models
 
 class Country(models.Model):
     name = models.CharField(max_length=50)
-    # add other fields/metadata here 
-    
+
     def __str__(self):
         return self.name
 
 class Department(models.Model):
     name = models.CharField(max_length=50)
-    # add other fields/metadata here
 
     def __str__(self):
-        return self.name  
+        return self.name
 
-class TaskDir(models.Model):
-    country = models.ForeignKey(Country)
+class Task(models.Model):
     department = models.ForeignKey(Department)
-    task = models.CharField(max_length=100)
-    subtask = models.CharField(max_length=100)    
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.id
+        return "{0}::{1}".format(self.department, self.name)
 
-class TaskDesc(models.Model):
+class Subtask(models.Model):
+    task = models.ForeignKey(Task)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "{0}::{1}".format(self.task, self.name)
+
+class Description(models.Model):
     STATUS = (
         (1, 'Not started'),
         (2, 'Initial Stages'),
@@ -32,10 +35,14 @@ class TaskDesc(models.Model):
         (5, 'Complete'),
     )
 
-    task_dir = models.ForeignKey(TaskDir)
-    date = models.DateTimeField(auto_now=True)
+    subtask = models.ForeignKey(Subtask)
+    country = models.ForeignKey(Country)
+    created_at = models.DateTimeField(auto_now=True)
     description = models.CharField(max_length=500)
     status = models.IntegerField(choices=STATUS)
 
+    class Meta:
+        ordering = ('-created_at',)
+
     def __str__(self):
-        return self.task_dir.subtask
+        return "{0}::{1}".format(self.task, self.name)
