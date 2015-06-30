@@ -11,38 +11,27 @@
   <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-   
     <header>
       <ul id="dropdown1" class="dropdown-content">
-        <li class="bold"><a href="/od/newframework" class="waves-effect waves-teal">NS In Newframework</a></li>
+        <li class="bold"><a href="/od/newframework" class="waves-effect waves-teal">NS in newframework</a></li>
         <li class="bold"><a href="/od/nsd" class="waves-effect waves-teal">NS Development</a></li>
-        <li class="bold"><a href="/od/youth" class="waves-effect waves-teal">Youth</a></li>
         <li class="bold"><a href="/od/volunteer" class="waves-effect waves-teal">Volunteer</a></li>
+        <li class="bold"><a href="/od/youth" class="waves-effect waves-teal">Youth</a></li>
       </ul>
-      <nav class="top-nav red fixed ">
+
+      <nav class="black-text top-nav red fixed ">
         <div class="container">
           <div class="nav-wrapper">
-            <a class="title">{{ title }}</a>
+            <a class="head">{{ title }}</a>
             <ul class="header-list right">
-                <li><a href="/">HOME</a></li>
-                <li><a href="/logout">LOGOUT</a></li>
+              <li><a href="/">HOME</a></li>
+              <li><a href="/logout">LOGOUT</a></li>
             </ul>
+            
           </div>
         </div>
       </nav>
-
-
-      <ul id="nav-mobile" class="side-nav fixed">
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">OCAC</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal  ">Status of OCAC recommendation Implemenation</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">Leadership Dev Z/G</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">Digital Divide</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">Learning Platform total users till Aug 2014</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">Databank</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal ">Adoptation of Learning Platform</a></li>
-      </ul>  
-
-    </header>  
+    </header>
     <main class="dashboard">
       <div class="container">
         <div class="row">
@@ -60,7 +49,6 @@
           {% endblock %}
         </div>
     </main>
-
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/materialize.js" %}"></script>
     <script src="{% static "js/init.js" %}"></script>
