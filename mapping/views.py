@@ -3,14 +3,17 @@ from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, De
 from mapping.models import Country, Department, Task, Subtask, Description
 # Create your views here.
 
-def od(request):
-    return render(request,'mapping/od.html',{'title':'User'})
+def home(request):
+    return render(request,'mapping/home.html',{'title':'HOME'})
+
+def department(request):
+    return render(request,'mapping/departments.html',{'title':'DEPARTMENTS'})
 
 def newframework(request):
-    return render(request,'mapping/newframework.html',{'title':'NS in New Framework'})
+    return render(request,'mapping/newframework.html',{'title':'NS in NEW FRAMEWORK'})
 
 def nsd(request):
-    return render(request,'mapping/nsd.html',{'title':'National Society Development'})
+    return render(request,'mapping/nsd.html',{'title':'NATIONAL SOCIETY DEVELOPMENT'})
 
 def youth(request):
     return render(request,'mapping/youth.html',{'title':'YOUTH'})
