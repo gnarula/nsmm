@@ -1,6 +1,8 @@
 from django.shortcuts import render
-
+from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, DescriptionForm
+from mapping.models import Country, Department, Task, Subtask, Description
 # Create your views here.
+
 def od(request):
     return render(request,'mapping/od.html',{'title':'User'})
 
