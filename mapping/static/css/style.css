@@ -10,12 +10,36 @@ nav ul a,
 nav .brand-logo {
   color: #fff;
 }
-#dropdown1 {margin-top: 80px ;}
 
-.title{
-      margin-left: -70px ;
+
+#down{margin-top:7px; }
+
+#change{color: black}
+
+.button{border:none;
+        border-radius: 2px ;
+        padding : 0 2rem;
+        text-transform: uppercase;
+        background-color: #4db6ac  ;
+        color: white ;
+        margin-top: 20px;
+        min-height: 50px;
+        min-width: 200px;
+        text-align: center;
+        padding-top: 5px;
+}
+
+nav a.logout{line-height: 80px;}
+
+nav.top-nav a.head{
+      margin-left: -80px ;
       font-size: 30px ;
       font: bold ;
+      }
+.title{
+      margin-left: -80px ;
+      font-size: 20px ;
+      
       }
 
 #nav-mobile {margin-top: 80px }
@@ -87,6 +111,7 @@ nav.top-nav {
 nav.top-nav a.page-title, ul.header-list {
   line-height: 80px;
   font-size: 35px;
+
 }
 
 a.button-collapse.top-nav {
