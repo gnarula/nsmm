@@ -12,13 +12,15 @@
 </head>
 <body>
     <header>
-      <ul id="dropdown1" class="dropdown-content">
-        <li class="bold"><a href="/od/newframework" class="waves-effect waves-teal">NS in newframework</a></li>
-        <li class="bold"><a href="/od/nsd" class="waves-effect waves-teal">NS Development</a></li>
-        <li class="bold"><a href="/od/volunteer" class="waves-effect waves-teal">Volunteer</a></li>
-        <li class="bold"><a href="/od/youth" class="waves-effect waves-teal">Youth</a></li>
+      {% for department in departments %}
+      <ul id="dropdown{{department.id}}" class="dropdown-content">
+        {% for task in tasks %}
+        {% if task.department.id == department.id %}
+        <li class="bold"><a href="/department/{{department.id}}/task/{{task.id}}" class="waves-effect waves-teal">{{task.name}}</a></li>
+        {% endif %}
+        {% endfor %}
       </ul>
-
+      {% endfor %}
       <nav class="black-text top-nav red fixed ">
         <div class="container">
           <div class="nav-wrapper">
@@ -27,7 +29,6 @@
               <li><a href="/">HOME</a></li>
               <li><a href="/logout">LOGOUT</a></li>
             </ul>
-            
           </div>
         </div>
       </nav>
@@ -35,15 +36,11 @@
     <main class="dashboard">
       <div class="container">
         <div class="row">
+          {% for department in departments %}
           <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Organization Development</a>
+            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown{{department.id}}" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
           </div>
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Disaster Management</a>
-          </div>
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Health</a>
-          </div>
+          {% endfor %}
         </div>
           {% block action-btn %}
           {% endblock %}
