@@ -11,6 +11,13 @@ nav .brand-logo {
   color: #fff;
 }
 
+.box{width: 85%;
+      padding-top: 80px;
+      padding-left: 50px;
+
+}
+
+.divider{height: 5px;}
 
 #down{margin-top:7px; }
 

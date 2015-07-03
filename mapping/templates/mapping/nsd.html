@@ -19,7 +19,7 @@
         <li class="bold"><a href="/od/youth" class="waves-effect waves-teal">Youth </a></li>
         <li class="bold"><a href="/od/volunteer" class="waves-effect waves-teal">Volunteer</a></li>
       </ul>
-      <nav class="top-nav red accent-4 fixed">
+      <nav class="top-nav red fixed">
         <div class="container">
           <div class="nav-wrapper">
             <a class="title">{{ title }}</a>
@@ -52,21 +52,36 @@
     </header>
     
     <main class="dashboard">
-      <div class="container">
-        <div class="row">
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Organization Development</a>
-          </div>
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Disaster Management</a>
-          </div>
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right "></i>Health</a>
+        <div class="container">
+          <div class="row">
+            <div class="col l3">
+              <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Organization Development</a>
+            </div>
+            <div class="col l3">
+              <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>Disaster Management</a>
+            </div>
+            <div class="col l3">
+              <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown1" ><i id="down" class="mdi-navigation-arrow-drop-down right "></i>Health</a>
+            </div>
           </div>
         </div>
-          {% block action-btn %}
-          {% endblock %}
-        </div>
+
+        <div class="divider"></div>
+
+        <h4 class="center box">PLEASE ENTER DETAILS</h4>
+
+        <div class="box">
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="textarea1" class="materialize-textarea"></textarea>
+                  <label for="textarea1">Task Description</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>        
     </main>
 
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
