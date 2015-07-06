@@ -21,7 +21,8 @@
         {% endfor %}
       </ul>
       {% endfor %}
-      <nav class="black-text top-nav red fixed ">
+      <div class="navbar-fixed">
+      <nav class="black-text top-nav red ">
         <div class="container">
           <div class="nav-wrapper">
             <a class="head">{{ title }}</a>
@@ -32,19 +33,20 @@
           </div>
         </div>
       </nav>
+      </div>
     </header>
     <main class="dashboard">
       <div class="container">
         <div class="row">
           {% for department in departments %}
-          <div class="col l3">
-            <a class="dropdown-button waves-effect waves-light button " href="#" data-activates="dropdown{{department.id}}" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
+          <div class="col l4">
+            <a class="dropdown-button waves-effect waves-light btn-large" href="#" data-activates="dropdown{{department.id}}" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
           </div>
           {% endfor %}
         </div>
-          {% block action-btn %}
-          {% endblock %}
         </div>
+        {% block action-btn %}
+        {% endblock %}
     </main>
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/materialize.js" %}"></script>
