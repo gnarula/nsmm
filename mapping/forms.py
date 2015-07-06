@@ -1,6 +1,6 @@
 from django import forms
 # from django.contrib.auth.models import Group
-# from django.forms import DateField, EmailInput, PasswordInput, Select, TextInput, BooleanField
+from django.forms import  Textarea
 from mapping.models import Country, Department, Task, Subtask, Description
 
 class CountryForm(forms.ModelForm):
@@ -26,4 +26,11 @@ class SubtaskForm(forms.ModelForm):
 class DescriptionForm(forms.ModelForm):
     class Meta:
         model = Description
-        exclude = []
+        exclude = ['created_at','subtask','country']
+
+        widgets = {
+
+            'description': Textarea(attrs={'class': 'materialize-textarea', 'required': True}),
+        }
+
+        labels = {'description' : 'TASK DESCRIPTION'}
