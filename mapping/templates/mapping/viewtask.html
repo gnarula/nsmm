@@ -12,23 +12,17 @@
   <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-    <header>
+  <header>
     {% block action-btn %}
     <ul id="nav-mobile" class="side-nav fixed">
-    {% for department in departments %}
-      {% if department.id == d %}
-        {% for task in tasks %}
-          {% if task.id == t %}
-            {% for subtask in subtasks %}
-            <li class="bold"><a href="{{task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal">{{subtask.name}}</a></li>
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
+      {% for subtask in subtasks %}
+      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal">{{subtask.name}}</a></li>
+      {% endfor %}
     {% endblock %}
-  </ul>
-</header>
+    </ul>
+  </header>
+
+
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/materialize.js" %}"></script>
     <script src="{% static "js/init.js" %}"></script>

@@ -47,25 +47,34 @@ def department(request):
     return render(request,'mapping/departments.html',{'departments': departments, 'title':'Departments', 'tasks': tasks})
 
 def tasks(request, department=None, task=None):
-    department = Department.objects.get(id=department)
-    task = Task.objects.get(id=task)
-    d = department.id
-    t = task.id
     departments = Department.objects.all().order_by('name')
     tasks = Task.objects.all().order_by('name')
-    subtasks = Subtask.objects.all().order_by('name')
-    return render(request,'mapping/viewtask.html',{'tasks' : tasks, 'departments': departments, 'subtasks': subtasks, 'd' : d, 't' : t})
+    subtasks = Subtask.objects.filter(task=task).order_by('name')
+    title = Task.objects.get(id=task).name
+    return render(request,'mapping/viewtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks})
 
 def subtasks(request, department=None, task=None, subtask=None):
-    # department = Department.objects.get(id=department)
-    # task = Task.objects.get(id=task)
-    # d = department.id
-    # t = task.id
-    # departments = Department.objects.all().order_by('name')
-    # tasks = Task.objects.all().order_by('name')
-    # subtasks = Subtask.objects.all().order_by('name')
-    # return render(request,'mapping/viewtask.html',{'tasks' : tasks, 'departments': departments, 'subtasks': subtasks, 'd' : d, 't' : t})
-    pass
+    departments = Department.objects.all().order_by('name')
+    tasks = Task.objects.all().order_by('name')
+    subtasks = Subtask.objects.filter(task=task).order_by('name')
+    title = Task.objects.get(id=task).name
+    if request.method == "POST":
+        form = DescriptionForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.subtask = Subtask.objects.get(id=subtask)
+            instance.user = request.user
+            instance.country = request.user.country
+            instance.save()
+            return HttpResponseRedirect('/department/(?P<department>\d+)/task/(?P<task>\d+)/subtask/(?P<subtask>\d+)', {'success': 'Task Added'})
+        else:
+            return render(request, 'mapping/viewsubtask.html', {'form': form, 'title': 'Task'})
+    else:
+        form = DescriptionForm() 
+        return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks , 'form':form })
+
+
+
 
 def newframework(request):
     return render(request,'mapping/newframework.html',{'title':'NS in NEW FRAMEWORK'})
