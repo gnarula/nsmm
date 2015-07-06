@@ -1,7 +1,7 @@
 (function($){
   $(function(){
-     $('select').material_select
-     
+     $('select').material_select();
+
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
 
@@ -11,7 +11,6 @@
         request.abort();
       }
 
-    
       $('#loader').attr('class', 'preloader-wrapper small active');
 
       var $form = $(this);
@@ -22,7 +21,7 @@
 
       $.post('/login', serialized, function(data) {
           Materialize.toast(data.message, 4000);
-          window.location = '/dashboard';
+          window.location = '/';
       })
       .fail(function(data) {
           Materialize.toast(data.responseJSON.message, 4000);
@@ -40,7 +39,6 @@
         selectYears: 80,
     });
 
+    $('.modal-trigger').leanModal();
   }); // end of document ready
 })(jQuery); // end of jQuery name space
-
-

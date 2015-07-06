@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, DescriptionForm
 from mapping.models import Country, Department, Task, Subtask, Description
 from django.template import Library
@@ -9,6 +13,29 @@ register = Library
 
 def home(request):
     return render(request,'mapping/home.html',{'title':'HOME'})
+
+def login(request):
+    # if user is logged in then redirect to the dashboard
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/department')
+
+    if request.method == "POST":
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        print(password)
+        user = auth.authenticate(email=email, password=password)
+        print(user)
+        if user is not None and user.is_active:
+            # Login the user
+            auth.login(request, user)
+            return JsonResponse({'message': 'Login Successful'}, status=200)
+        else:
+            return JsonResponse({'message': 'Invalid Username/Password'}, status=500)
+    return render(request, 'mapping/login.html')
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/login')
 
 def department(request):
     departments = Department.objects.all().order_by('name')
