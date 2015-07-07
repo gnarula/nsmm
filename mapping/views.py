@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth
+from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, DescriptionForm
@@ -56,23 +57,36 @@ def subtasks(request, department=None, task=None, subtask=None):
     tasks = Task.objects.all().order_by('name')
     subtasks = Subtask.objects.filter(task=task).order_by('name')
     title = Task.objects.get(id=task).name
+    try:
+        description = Description.objects.get(subtask=subtask)
+        date_created = description.created_at.year
+        date_today = date.today().year
+        if date_today != date_created:
+            description = None
+    except Description.DoesNotExist:
+        description = None
     if request.method == "POST":
-        form = DescriptionForm(request.POST)
+        if description:
+            form = DescriptionForm(request.POST, instance=description)
+        else:
+            form = DescriptionForm(request.POST)
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.subtask = Subtask.objects.get(id=subtask)
             instance.user = request.user
             instance.country = request.user.country
             instance.save()
-            return HttpResponseRedirect('/department/(?P<department>\d+)/task/(?P<task>\d+)/subtask/(?P<subtask>\d+)', {'success': 'Task Added'})
+            dest_url = '/department/{0}/task/{1}/subtask/{2}'.format(department, task, subtask)
+            return HttpResponseRedirect(dest_url, {'success': 'Task Added', 'subtasks': subtasks ,'title': title, 'departments': departments, 'tasks': tasks , 'form': form})
         else:
             return render(request, 'mapping/viewsubtask.html', {'form': form, 'title': 'Task'})
     else:
-        form = DescriptionForm()
+        if description:
+            form = DescriptionForm(instance=description)
+        else:
+            form = DescriptionForm()
         return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks , 'form':form })
-
-
-
 
 def newframework(request):
     return render(request,'mapping/newframework.html',{'title':'NS in NEW FRAMEWORK'})
