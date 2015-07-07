@@ -15,7 +15,7 @@ class Department(models.Model):
 
 class UserManager(BaseUserManager):
     def create_user(self,
-        email,
+        username,
         first_name,
         last_name,
         country,
@@ -25,13 +25,13 @@ class UserManager(BaseUserManager):
         Creates a new user
         """
 
-        if not email:
-            raise ValueError('User must have a valid email address')
+        if not username:
+            raise ValueError('User must have a username')
 
         c = Country.objects.get(pk=country)
 
         user = self.model(
-            email=self.normalize_email(email),
+            username=username,
             first_name=first_name,
             last_name=last_name,
             country=c
@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(
         self,
-        email,
+        username,
         first_name,
         last_name,
         country,
@@ -55,7 +55,7 @@ class UserManager(BaseUserManager):
 
 
         user = self.create_user(
-            email=email,
+            username=username,
             first_name=first_name,
             last_name=last_name,
             country=country,
@@ -70,11 +70,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     country = models.ForeignKey(Country)
-    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=40, unique=True)
     is_active = models.BooleanField(default=True, null=False, blank=False)
 
     objects = UserManager()
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
         'first_name',
         'last_name',
@@ -97,11 +97,10 @@ class Subtask(models.Model):
 
 class Description(models.Model):
     STATUS = (
-        (1, 'Not started'),
-        (2, 'Initial Stages'),
-        (3, 'Intermediate'),
-        (4, 'Advanced'),
-        (5, 'Complete'),
+        (1, 'Not started'), # 45
+        (2, 'Initial Stages'), # 43
+        (3, 'Mostly Accomplished'), # 42
+        (4, 'Complete'), # 49
     )
 
     subtask = models.ForeignKey(Subtask)

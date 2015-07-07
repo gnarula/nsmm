@@ -20,11 +20,9 @@ def login(request):
         return HttpResponseRedirect('/department')
 
     if request.method == "POST":
-        email = request.POST.get('email', '')
+        username = request.POST.get('username', '')
         password = request.POST.get('password', '')
-        print(password)
-        user = auth.authenticate(email=email, password=password)
-        print(user)
+        user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
             # Login the user
             auth.login(request, user)
@@ -70,7 +68,7 @@ def subtasks(request, department=None, task=None, subtask=None):
         else:
             return render(request, 'mapping/viewsubtask.html', {'form': form, 'title': 'Task'})
     else:
-        form = DescriptionForm() 
+        form = DescriptionForm()
         return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks , 'form':form })
 
 
