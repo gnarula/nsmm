@@ -13,22 +13,22 @@
 </head>
 <body>
 {% block action-btn %}
-    <header>  
+    <header>
       <ul id="nav-mobile" class="side-nav fixed">
         {% for subtask in subtasks %}
         <li class="bold"><a href="" class="waves-effect waves-teal">{{subtask.name}}</a></li>
         {% endfor %}
-      
+
       </ul>
     </header>
 
-      
+
           <div class="row">
           <div class="col s12">
             <div class="box card">
               <div class="card-content">
                 <h4 class="center">PLEASE ENTER DETAILS</h4>
-                <form method="POST" action="#" class="col s12">
+                <form method="POST" action="" class="col s12">
                   <div class="row">
                   {% csrf_token %}
                     <div class="input-field col s12">
@@ -54,11 +54,11 @@
             </div>
           </div>
           </div>
-      
+
 
 {% endblock %}
 
-    
+
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/materialize.js" %}"></script>
     <script src="{% static "js/init.js" %}"></script>
