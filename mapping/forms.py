@@ -13,10 +13,14 @@ class DepartmentForm(forms.ModelForm):
         model = Department
         exclude = []
 
+        labels = {'name' : 'DEPARTMENT NAME'}
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = []
+
+        labels = {'name':'TASK NAME'}
 
 class SubtaskForm(forms.ModelForm):
     class Meta:
