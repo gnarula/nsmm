@@ -118,5 +118,30 @@ def newdepartment(request):
 def newtask(request):
     departments = Department.objects.all().order_by('name')
     tasks = Task.objects.all().order_by('name')
-    form = TaskForm()
-    return render(request,'mapping/newtask.html',{'departments': departments, 'title':'NEW TASK ', 'tasks': tasks , 'form' : form})
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/newtask', {'success': 'Task Added'})
+        else:
+            return render(request,'mapping/newtask.html',{'departments': departments, 'title':'NEW TASK ', 'tasks': tasks , 'form' : form})
+
+    else:
+        form = TaskForm()
+        return render(request,'mapping/newtask.html',{'departments': departments, 'title':'NEW TASK ', 'tasks': tasks , 'form' : form})
+
+
+def newsubtask(request):
+    departments = Department.objects.all().order_by('name')
+    tasks = Task.objects.all().order_by('name')
+    if request.method == "POST":
+        form = SubtaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/newsubtask', {'success': 'Subtask Added'})
+        else:
+            return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
+
+    else:
+        form = SubtaskForm()
+        return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})

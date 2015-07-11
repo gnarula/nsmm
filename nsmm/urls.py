@@ -19,4 +19,5 @@ urlpatterns = patterns('',
     url(r'^od/volunteer$',views.volunteer),
     url(r'^newdepartment$',views.newdepartment),
     url(r'^newtask$',views.newtask),
+    url(r'^newsubtask$',views.newsubtask),
 )
