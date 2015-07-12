@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>{% block title %}{% endblock %} - NSMM</title>
+
+  <!-- CSS  -->
+  <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+    <header>
+      {% for department in departments %}
+      <ul id="dropdown{{department.id}}" class=" dropdown-content">
+        {% for task in tasks %}
+        {% if task.department.id == department.id %}
+        <li class="bold"><a href="/department/{{department.id}}/task/{{task.id}}" class="drop waves-effect waves-teal">{{task.name}}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+      {% endfor %}
+      <ul id="dropdown5" class="dropdown-content">
+        <li class="bold"><a href="/newdepartment" class="waves-effect waves-teal">DEPARTMENT</a></li>
+        <li class="bold"><a href="/newtask" class="waves-effect waves-teal">TASK</a></li>
+        <li class="bold"><a href="/newsubtask" class="waves-effect waves-teal">SUBTASK</a></li>
+      </ul>
+      <div class="navbar-fixed">
+      <nav class="black-text top-nav red ">
+        <div class="container">
+          <div class="nav-wrapper">
+            <a class="head">{{ title }}</a>
+            <ul class="header-list right">
+              <li><a href="/">HOME</a></li>
+              <li><a class="dropdown-button" href="#" data-activates="dropdown5">ADD NEW<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+              <li><a href="/logout">LOGOUT</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      </div>
+    </header>
+    <main>
+      <div class="col s12">
+        <div class="box">
+            <h5 class="down center">EXISTING DEPARTMENTS AND THEIR TASKS</h5>
+            <div class="row">
+              {% for department in departments %}
+              <div class="col l4">
+              <a class="dropdown-button waves-effect waves-light btn-large" href="#" data-activates="dropdown{{department.id}}"><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
+              </div>
+              {% endfor %}
+            </div>
+            <h5 class="down center">ADD NEW TASK</h5>
+            <form method="POST" action="/newtask" class="col s12">
+                  <div class="dep down row">
+                    {% csrf_token %}
+                    <div class="drop input-field col s12">
+                      {{ form.department}}
+                      <label for="{{ form.department.id_for_label }}">{{form.department.label}}</label>
+                    </div>
+                  </div>
+                  <div class="dep down row">
+                    <div class="input-field col s12">
+                      {{ form.name }}
+                      <label for="{{ form.name.id_for_label }}">{{form.name.label}}</label>
+                    </div>
+                  </div>
+                  <div class="dep down row">
+                    <div class="col s12 ">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="mdi-content-send right"></i>
+                    </button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+      </div>  
+    </main>
+    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <script src="{% static "js/init.js" %}"></script>
+</body>
+</html>

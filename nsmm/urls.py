@@ -17,4 +17,7 @@ urlpatterns = patterns('',
     url(r'^od/nsd$',views.nsd),
     url(r'^od/youth$',views.youth),
     url(r'^od/volunteer$',views.volunteer),
+    url(r'^newdepartment$',views.newdepartment),
+    url(r'^newtask$',views.newtask),
+    url(r'^newsubtask$',views.newsubtask),
 )

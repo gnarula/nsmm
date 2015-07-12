@@ -18,9 +18,13 @@
       {% for subtask in subtasks %}
       <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal">{{subtask.name}}</a></li>
       {% endfor %}
-    {% endblock %}
+      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal"></a></li>
+      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal"></a></li>
     </ul>
+    {% endblock %}
   </header>
+
+
 
 
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>

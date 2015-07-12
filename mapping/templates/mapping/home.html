@@ -4,7 +4,7 @@
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>{% block title %}{% endblock %} - SAYN</title>
+  <title>{% block title %}{% endblock %} - NSMM</title>
 
   <!-- CSS  -->
   <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -13,8 +13,8 @@
 <body>
     <header>
       <ul id="dropdown1" class="dropdown-content">
-        <li class="bold"><a href="#" class="waves-effect waves-teal">DEPARTMENT</a></li>
-        <li class="bold"><a href="#" class="waves-effect waves-teal">TASK</a></li>
+        <li class="bold"><a href="/newdepartment" class="waves-effect waves-teal">DEPARTMENT</a></li>
+        <li class="bold"><a href="/newtask" class="waves-effect waves-teal">TASK</a></li>
         <li class="bold"><a href="#" class="waves-effect waves-teal">SUBTASK</a></li>
       </ul>
       <nav class="top-nav red ">
@@ -42,6 +42,7 @@
           {% endblock %}
         </div>
     </main>
+
     <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/materialize.js" %}"></script>
     <script src="{% static "js/init.js" %}"></script>
