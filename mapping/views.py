@@ -119,6 +119,39 @@ def listtask(request,id=None):
     tasks = Task.objects.filter(department=id)
     return render(request, 'mapping/task_list.html', {'tasks': tasks, 'department_id':id})
 
+def listsubtask(request, department_id=None, task_id=None):
+    # tasks = Task.objects.filter(department=id)
+    subtasks = Subtask.objects.filter(task__id=task_id)
+    return render(request, 'mapping/subtask_list.html', {'subtasks': subtasks, 'department_id':department_id, 'task_id':task_id})
+
+def newsubtask(request, department_id=None, task_id=None):
+    if request.method == "POST":
+        form = SubtaskForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.task = Task.objects.get(id=task_id)
+            instance.save()
+            return HttpResponseRedirect('/admin/department/{0}/task/{1}/subtask'.format(department_id, task_id), {'success': 'Task Added'})
+        else:
+            return render(request,'mapping/newsubtask.html',{'title':'NEW TASK ', 'tasks': tasks , 'form' : form, 'department_id': department_id, 'task_id': task_id})
+
+    else:
+        form = SubtaskForm()
+        return render(request,'mapping/newsubtask.html',{ 'title':'NEW SUBTASK ','tasks': tasks , 'form' : form, 'department_id': department_id, 'task_id': task_id})
+
+def editsubtask(request, department_id=None, task_id=None, subtask_id=None):
+    subtask = Subtask.objects.get(id=subtask_id)
+    if request.method == 'POST':
+        form = SubtaskForm(request.POST, instance=subtask)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/department/{0}/task/{1}/subtask'.format(department_id, task_id), {'success': 'Task edited'})
+        else:
+            return render(request,'mapping/editsubtask.html', {'title': 'Department', 'form': form, 'department_id': department_id, 'task_id': task_id, 'subtask_id': subtask_id})
+    else:
+        form = SubtaskForm(instance=subtask)
+        return render(request,'mapping/editsubtask.html', {'title': 'Department', 'form': form , 'department_id': department_id, 'task_id': task_id, 'subtask_id': subtask_id})
+
 def newtask(request,id=None):
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -147,20 +180,20 @@ def edittask(request, department=None,task=None):
         form = TaskForm(instance=tasks)
         return render(request,'mapping/edittask.html', {'title': 'Department', 'form': form , 'department_id': department,'task_id' : task })
 
-def newsubtask(request):
-    departments = Department.objects.all().order_by('name')
-    tasks = Task.objects.all().order_by('name')
-    if request.method == "POST":
-        form = SubtaskForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/newsubtask', {'success': 'Subtask Added'})
-        else:
-            return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
+# def newsubtask(request):
+#     departments = Department.objects.all().order_by('name')
+#     tasks = Task.objects.all().order_by('name')
+#     if request.method == "POST":
+#         form = SubtaskForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/newsubtask', {'success': 'Subtask Added'})
+#         else:
+#             return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
 
-    else:
-        form = SubtaskForm()
-        return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
+#     else:
+#         form = SubtaskForm()
+#         return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
 
 def filter(request):
     f = DescriptionFilter(request.POST, queryset=Description.objects.all())
