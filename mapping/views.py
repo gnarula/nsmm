@@ -4,13 +4,11 @@ from django.contrib import auth
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, DescriptionForm
-from mapping.models import Country, Department, Task, Subtask, Description
-from django.template import Library
+from mapping.forms import CountryForm, DepartmentForm, TaskForm, SubtaskForm, DescriptionForm, UserForm, UserEditForm
+from mapping.models import Country, CustomUser, Department, Task, Subtask, Description
+from mapping.filters import DescriptionFilter
 
 # Create your views here.
-
-register = Library
 
 def home(request):
     return render(request,'mapping/home.html',{'title':'HOME'})
@@ -58,7 +56,7 @@ def subtasks(request, department=None, task=None, subtask=None):
     subtasks = Subtask.objects.filter(task=task).order_by('name')
     title = Task.objects.get(id=task).name
     try:
-        description = Description.objects.get(subtask=subtask)
+        description = Description.objects.get(subtask=subtask, country=request.user.country)
         date_created = description.created_at.year
         date_today = date.today().year
         if date_today != date_created:
@@ -88,31 +86,34 @@ def subtasks(request, department=None, task=None, subtask=None):
             form = DescriptionForm()
         return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks , 'form':form })
 
-def newframework(request):
-    return render(request,'mapping/newframework.html',{'title':'NS in NEW FRAMEWORK'})
-
-def nsd(request):
-    return render(request,'mapping/nsd.html',{'title':'NATIONAL SOCIETY DEVELOPMENT'})
-
-def youth(request):
-    return render(request,'mapping/youth.html',{'title':'YOUTH'})
-
-def volunteer(request):
-    return render(request,'mapping/volunteer.html',{'title':'VOLUNTEERING'})
+def listdepartment(request):
+    departments = Department.objects.all().order_by('name')
+    return render(request, 'mapping/department_list.html', {'departments': departments})
 
 def newdepartment(request):
-    departments = Department.objects.all().order_by('name')
-    if request.method == "POST":
+    if request.method == 'POST':
         form = DepartmentForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/', {'success': 'Department Added'})
+            return HttpResponseRedirect('/admin/department', {'success': 'Department Added'})
         else:
-            return render(request,'mapping/newdepartment.html',{'departments': departments,'title':'NEW DEPARTMENT' , 'form': form})
-
+            return render(request,'mapping/newdepartment.html', {'title': 'Department', 'form': form})
     else:
         form = DepartmentForm()
-        return render(request,'mapping/newdepartment.html',{'departments': departments,'title':'NEW DEPARTMENT' , 'form': form})
+        return render(request,'mapping/newdepartment.html', {'title': 'Department', 'form': form})
+
+def editdepartment(request, id=None):
+    department = Department.objects.get(id=id)
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST, instance=department)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/department', {'success': 'Department edited'})
+        else:
+            return render(request,'mapping/newdepartment.html', {'title': 'Department', 'form': form})
+    else:
+        form = DepartmentForm(instance=department)
+        return render(request,'mapping/newdepartment.html', {'title': 'Department', 'form': form})
 
 
 def newtask(request):
@@ -145,3 +146,50 @@ def newsubtask(request):
     else:
         form = SubtaskForm()
         return render(request,'mapping/newsubtask.html',{'departments': departments, 'title':'NEW SUBTASK ', 'tasks': tasks , 'form' : form})
+
+def filter(request):
+    f = DescriptionFilter(request.POST, queryset=Description.objects.all())
+    if request.method == 'POST':
+        countries = [c.name for c in Country.objects.filter(pk__in=request.POST.getlist('country'))]
+        subtasks = [s.name for s in Subtask.objects.filter(pk__in=request.POST.getlist('subtask'))]
+
+        descriptions = {}
+        c = 0
+        for obj in f:
+            if obj.country.name in descriptions:
+                descriptions[obj.country.name][obj.subtask.name] = [obj.description, obj.status]
+            else:
+                descriptions[obj.country.name] = {obj.subtask.name: [obj.description, obj.status]}
+            c += 1
+
+        return render(request, 'mapping/print.html', {'descriptions': descriptions, 'countries': countries, 'subtasks': subtasks})
+    return render(request, 'mapping/filter.html', {'filter': f, 'title': 'Filter'})
+
+def user(request):
+    u = CustomUser.objects.all().order_by('country')
+    return render(request, 'mapping/user_list.html', {'title': 'Users', 'users': u})
+
+def newuser(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/user')
+        else:
+            return render(request, 'mapping/newuser.html', {'title': 'User', 'form': form})
+    else:
+        form = UserForm()
+        return render(request, 'mapping/newuser.html', {'title': 'User', 'form': form})
+
+def edituser(request, id=None):
+    user = CustomUser.objects.get(id=id)
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/user', {'success': 'User Updated'})
+        else:
+            return render(request, 'mapping/edituser.html', {'id': user.id, 'form': form, 'title': 'Users'})
+    else:
+        form = UserEditForm(instance=user)
+        return render(request,'mapping/edituser.html', {'id': user.id, 'form': form, 'title': 'Users'})

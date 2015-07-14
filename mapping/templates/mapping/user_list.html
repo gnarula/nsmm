@@ -1,0 +1,28 @@
+{% extends "mapping/admin_template.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+<ul class="collapsible popout" data-collapsible="accordion">
+  {% for u in users %}
+  <li>
+    <div class="collapsible-header">
+      <p>
+      <span class="list-name red-text">{{ u.first_name }} {{ u.last_name }}</span>
+        <span class="right">
+          <a class="red-text" href="/admin/user/{{ u.id }}/edit"><i class="mdi-content-create tiny"></i></a>
+        </span>
+        <br>
+        <span class="list-property red-text text-lighten-1">{{ u.username }}</span><span class="list-property red-text text-lighten-1">{{ u.country }}</span>
+      </p>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
+
+{% block action-btn %}
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a href="/admin/user/new" class="btn-floating btn-large waves-effect waves-light red "><i class="mdi-content-add"></i></a>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% load mapping_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>{% block title %}{% endblock %} - NSMM</title>
+
+  <!-- CSS  -->
+  <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection,print"/>
+  <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection,print"/>
+</head>
+<body style="background: #fff">
+    <main>
+      <table class="centered">
+        <thead>
+          <tr>
+            <th>Countries</th>
+            {% for subtask in subtasks %}
+            <th>{{ subtask }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        {% for country, s in descriptions.items %}
+        <tr>
+          <th>{{ country }}</th>
+          {% for subtask in subtasks %}
+          {% with description=s|lookup:subtask %}
+          <td class="status-{{ description.1 }}">{{ description.0 }}</td>
+          {% endwith %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </main>
+    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <script src="{% static "js/init.js" %}"></script>
+</body>
+</html>

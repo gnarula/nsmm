@@ -16,7 +16,7 @@
     <header>
       <ul id="nav-mobile" class="side-nav fixed">
         {% for subtask in subtasks %}
-        <li class="bold"><a href="" class="waves-effect waves-teal">{{subtask.name}}</a></li>
+        <li class="bold"><a href="/department/{{ subtask.task.department.id }}/task/{{ subtask.task.id }}/subtask/{{ subtask.id }}" class="waves-effect waves-teal">{{subtask.name}}</a></li>
         {% endfor %}
       </ul>
     </header>

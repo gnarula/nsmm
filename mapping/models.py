@@ -72,6 +72,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     country = models.ForeignKey(Country)
     username = models.CharField(max_length=40, unique=True)
     is_active = models.BooleanField(default=True, null=False, blank=False)
+    department = models.ForeignKey(Department)
 
     objects = UserManager()
     USERNAME_FIELD = 'username'
@@ -113,4 +114,4 @@ class Description(models.Model):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return "{0}::{1}".format(self.task, self.name)
+        return self.subtask.__str__()

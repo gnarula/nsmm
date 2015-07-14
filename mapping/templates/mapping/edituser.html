@@ -1,0 +1,59 @@
+{% extends "mapping/admin_template.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+
+{% if form.errors %}
+<div id="form-error">
+  <p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+  <ul>
+  {% for field in form %}
+  {% if field.errors %}
+  <li>{{ field.label }} - {{ field.errors|striptags }}</li>
+  {% endif %}
+  {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="POST" action="/admin/user/{{ id }}/edit" class="col s12">
+  <div class="row">
+    {% csrf_token %}
+    <div class="input-field col s6">
+      {{ form.first_name }}
+      <label for="{{ form.first_name.id_for_label }}">{{form.first_name.label}}</label>
+    </div>
+    <div class="input-field col s6">
+      {{ form.last_name }}
+      <label for="{{ form.last_name.id_for_label }}">{{form.last_name.label}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      {{ form.username }}
+      <label for="{{ form.username.id_for_label }}">{{form.username.label}}</label>
+    </div>
+    <div class="input-field col s6">
+      {{ form.password }}
+      <label for="{{ form.password.id_for_label }}">{{form.password.label}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      {{ form.country }}
+      <label for="{{ form.country.id_for_label }}">{{form.country.label}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      {{ form.department }}
+      <label for="{{ form.group.id_for_label }}">{{ form.group.label }}</label>
+    </div>
+  </div>
+
+  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="mdi-content-send right"></i>
+  </button>
+</form>
+{% endblock %}
