@@ -115,22 +115,37 @@ def editdepartment(request, id=None):
         form = DepartmentForm(instance=department)
         return render(request,'mapping/newdepartment.html', {'title': 'Department', 'form': form})
 
+def listtask(request,id=None):
+    tasks = Task.objects.filter(department=id)
+    return render(request, 'mapping/task_list.html', {'tasks': tasks, 'department_id':id})
 
-def newtask(request):
-    departments = Department.objects.all().order_by('name')
-    tasks = Task.objects.all().order_by('name')
+def newtask(request,id=None):
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/newtask', {'success': 'Task Added'})
+            instance = form.save(commit=False)
+            instance.department = Department.objects.get(id=id)
+            instance.save()
+            return HttpResponseRedirect('/admin/department/{0}/task'.format(id), {'success': 'Task Added'})
         else:
-            return render(request,'mapping/newtask.html',{'departments': departments, 'title':'NEW TASK ', 'tasks': tasks , 'form' : form})
+            return render(request,'mapping/newtask.html',{'title':'NEW TASK ', 'department_id': id, 'tasks': tasks , 'form' : form})
 
     else:
         form = TaskForm()
-        return render(request,'mapping/newtask.html',{'departments': departments, 'title':'NEW TASK ', 'tasks': tasks , 'form' : form})
+        return render(request,'mapping/newtask.html',{ 'title':'NEW TASK ','department_id': id ,'tasks': tasks , 'form' : form})
 
+def edittask(request, department=None,task=None):
+    tasks = Task.objects.get(id=task)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=tasks)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/department/{0}/task'.format(department), {'success': 'Task edited'})
+        else:
+            return render(request,'mapping/edittask.html', {'title': 'Department', 'form': form, 'department_id': department ,'task_id' : task })
+    else:
+        form = TaskForm(instance=tasks)
+        return render(request,'mapping/edittask.html', {'title': 'Department', 'form': form , 'department_id': department,'task_id' : task })
 
 def newsubtask(request):
     departments = Department.objects.all().order_by('name')
