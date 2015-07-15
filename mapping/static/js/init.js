@@ -21,7 +21,7 @@
 
       $.post('/login', serialized, function(data) {
           Materialize.toast(data.message, 4000);
-          window.location = '/';
+          window.location = data.redirect;
       })
       .fail(function(data) {
           Materialize.toast(data.responseJSON.message, 4000);

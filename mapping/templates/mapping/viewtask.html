@@ -1,5 +1,6 @@
 {% extends "mapping/departments.html" %}
 {% load staticfiles %}
+{% load mapping_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +11,25 @@
   <!-- CSS  -->
   <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 </head>
 <body>
   <header>
     {% block action-btn %}
     <ul id="nav-mobile" class="side-nav fixed">
       {% for subtask in subtasks %}
-      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal">{{subtask.name}}</a></li>
+      <li class="bold">
+        <a href="/department/{{subtask.task.department.id }}/task/{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal">
+        {% if subtask|is_filled:user.country.id %}
+        <i class="green-text material-icons">done</i>
+        {% else %}
+        <i class="red-text material-icons">report_problem</i>
+        {% endif %}
+        {{subtask.name}}</a>
+      </li>
       {% endfor %}
-      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal"></a></li>
-      <li class="bold"><a href="{{subtask.task.id}}/subtask/{{subtask.id}}" class="waves-effect waves-teal"></a></li>
+      <li class="bold"><a href="" class="waves-effect waves-teal"></a></li>
+      <li class="bold"><a href="" class="waves-effect waves-teal"></a></li>
     </ul>
     {% endblock %}
   </header>

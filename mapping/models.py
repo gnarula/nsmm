@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -95,6 +96,11 @@ class Subtask(models.Model):
 
     def __str__(self):
         return "{0}::{1}".format(self.task, self.name)
+
+    def is_filled(self, country):
+        start = date(date.today().year, 1, 1)
+        end = date(date.today().year, 12, 31)
+        return Description.objects.filter(subtask=self, country__id=country, created_at__gte=start, created_at__lte=end).exists()
 
 class Description(models.Model):
     STATUS = (

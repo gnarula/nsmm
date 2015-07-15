@@ -25,7 +25,9 @@ def login(request):
         if user is not None and user.is_active:
             # Login the user
             auth.login(request, user)
-            return JsonResponse({'message': 'Login Successful'}, status=200)
+            if user.is_superuser:
+                return JsonResponse({'message': 'Login Successful', 'redirect': '/admin/user'}, status=200)
+            return JsonResponse({'message': 'Login Successful', 'redirect': '/department'}, status=200)
         else:
             return JsonResponse({'message': 'Invalid Username/Password'}, status=500)
     return render(request, 'mapping/login.html')
@@ -35,32 +37,27 @@ def logout(request):
     return HttpResponseRedirect('/login')
 
 def department(request):
-    departments = Department.objects.all().order_by('name')
-    d = Department()
-    tasks = Task.objects.all().order_by('name')
-    t = Task()
-    # total_depts = sum(0 == 0 for department in departments)
-    # total_tasks = sum(0 == 0 for task in tasks)
-    return render(request,'mapping/departments.html',{'departments': departments, 'title':'DEPARTMENTS', 'tasks': tasks})
+    user_department = request.user.department
+    return render(request, 'mapping/departments.html', {'department': user_department, 'title':'Departments'})
 
 def tasks(request, department=None, task=None):
-    departments = Department.objects.all().order_by('name')
-    tasks = Task.objects.all().order_by('name')
+    user_department = request.user.department
+    if int(department) != user_department.id:
+        return HttpResponseRedirect('/department')
+
     subtasks = Subtask.objects.filter(task=task).order_by('name')
     title = Task.objects.get(id=task).name
-    return render(request,'mapping/viewtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks})
+    return render(request,'mapping/viewtask.html',{'subtasks': subtasks ,'title': title ,'department': user_department})
 
 def subtasks(request, department=None, task=None, subtask=None):
-    departments = Department.objects.all().order_by('name')
-    tasks = Task.objects.all().order_by('name')
+    user_department = request.user.department
+    if int(department) != user_department.id:
+        return HttpResponseRedirect('/department')
+
     subtasks = Subtask.objects.filter(task=task).order_by('name')
-    title = Task.objects.get(id=task).name
+    title = Subtask.objects.get(id=subtask).name
     try:
-        description = Description.objects.get(subtask=subtask, country=request.user.country)
-        date_created = description.created_at.year
-        date_today = date.today().year
-        if date_today != date_created:
-            description = None
+        description = Description.objects.filter(subtask=subtask, country=request.user.country).latest('created_at')
     except Description.DoesNotExist:
         description = None
     if request.method == "POST":
@@ -84,7 +81,7 @@ def subtasks(request, department=None, task=None, subtask=None):
             form = DescriptionForm(instance=description)
         else:
             form = DescriptionForm()
-        return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'departments': departments, 'tasks': tasks , 'form':form })
+        return render(request,'mapping/viewsubtask.html',{'subtasks': subtasks ,'title': title ,'department': user_department, 'form':form })
 
 def listdepartment(request):
     departments = Department.objects.all().order_by('name')

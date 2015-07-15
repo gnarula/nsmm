@@ -9,18 +9,15 @@
   <!-- CSS  -->
   <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
-      {% for department in departments %}
       <ul id="dropdown{{department.id}}" class="dropdown-content">
-        {% for task in tasks %}
-        {% if task.department.id == department.id %}
+        {% for task in department.task_set.all %}
         <li class="bold"><a href="/department/{{department.id}}/task/{{task.id}}" class="waves-effect waves-teal">{{task.name}}</a></li>
-        {% endif %}
         {% endfor %}
       </ul>
-      {% endfor %}
       <div class="navbar-fixed">
       <nav class="black-text top-nav red ">
         <div class="container">
@@ -38,11 +35,9 @@
     <main class="dashboard">
       <div class="container">
         <div class="row">
-          {% for department in departments %}
           <div class="col l4">
             <a class="dropdown-button waves-effect waves-light btn-large" href="#" data-activates="dropdown{{department.id}}" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
           </div>
-          {% endfor %}
         </div>
         </div>
         {% block action-btn %}
