@@ -10,8 +10,8 @@
       <p>
       <span class="list-name red-text">{{ t.name }}</span>
         <span class="right">
-          <a class="red-text" href="/admin/department/{{ department_id }}/task/{{t.id}}/edit"><i class="mdi-content-create tiny"></i></a>
-          <a class="red-text" href="/admin/department/{{ department_id }}/task/{{t.id}}/subtask"><i class="mdi-editor-format-list-numbered tiny"></i></a>
+          <a class="red-text" href="/admin/department/{{ department_id }}/task/{{t.id}}/edit"><i class="tooltipped mdi-content-create tiny" data-position="top" data-delay="50" data-tooltip="Edit Task Name " ></i></a>
+          <a class="red-text" href="/admin/department/{{ department_id }}/task/{{t.id}}/subtask"><i class="tooltipped mdi-editor-format-list-numbered tiny" data-position="top" data-delay="50" data-tooltip="List Subtasks of this Task " ></i></a>
         </span>
         <br>
       </p>
@@ -23,6 +23,6 @@
 
 {% block action-btn %}
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-  <a href="/admin/department/{{ department_id }}/task/new" class="btn-floating btn-large waves-effect waves-light red "><i class="mdi-content-add"></i></a>
+  <a href="/admin/department/{{ department_id }}/task/new" class="btn-floating btn-large waves-effect waves-light red "><i class="tooltipped mdi-content-add" data-position="top" data-delay="50" data-tooltip="Add New Task "></i></a>
 </div>
 {% endblock %}
