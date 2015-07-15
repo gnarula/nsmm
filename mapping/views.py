@@ -85,7 +85,7 @@ def subtasks(request, department=None, task=None, subtask=None):
 
 def listdepartment(request):
     departments = Department.objects.all().order_by('name')
-    return render(request, 'mapping/department_list.html', {'departments': departments})
+    return render(request, 'mapping/department_list.html', {'departments': departments , 'title' : 'Departments'})
 
 def newdepartment(request):
     if request.method == 'POST':
@@ -114,12 +114,12 @@ def editdepartment(request, id=None):
 
 def listtask(request,id=None):
     tasks = Task.objects.filter(department=id)
-    return render(request, 'mapping/task_list.html', {'tasks': tasks, 'department_id':id})
+    return render(request, 'mapping/task_list.html', {'tasks': tasks, 'department_id':id , 'title' : 'Tasks'})
 
 def listsubtask(request, department_id=None, task_id=None):
     # tasks = Task.objects.filter(department=id)
     subtasks = Subtask.objects.filter(task__id=task_id)
-    return render(request, 'mapping/subtask_list.html', {'subtasks': subtasks, 'department_id':department_id, 'task_id':task_id})
+    return render(request, 'mapping/subtask_list.html', {'subtasks': subtasks, 'department_id':department_id, 'task_id':task_id , 'title' : 'Subtasks'})
 
 def newsubtask(request, department_id=None, task_id=None):
     if request.method == "POST":

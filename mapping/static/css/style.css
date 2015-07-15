@@ -241,3 +241,7 @@ table td {
 body, table {
   overflow-x: scroll;
 }
+
+@media only screen and (min-width: 993px){
+.row .col.l4{width:inherit ;}
+}

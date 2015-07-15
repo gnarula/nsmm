@@ -10,7 +10,7 @@
       <p>
       <span class="list-name red-text">{{ u.first_name }} {{ u.last_name }}</span>
         <span class="right">
-          <a class="red-text" href="/admin/user/{{ u.id }}/edit"><i class="mdi-content-create tiny"></i></a>
+          <a class="red-text" href="/admin/user/{{ u.id }}/edit"><i class="tooltipped mdi-content-create tiny" data-position="top" data-delay="50" data-tooltip="Edit User Details"></i></a>
         </span>
         <br>
         <span class="list-property red-text text-lighten-1">{{ u.username }}</span><span class="list-property red-text text-lighten-1">{{ u.country }}</span>
@@ -23,6 +23,6 @@
 
 {% block action-btn %}
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-  <a href="/admin/user/new" class="btn-floating btn-large waves-effect waves-light red "><i class="mdi-content-add"></i></a>
+  <a href="/admin/user/new" class="btn-floating btn-large waves-effect waves-light red "><i class="tooltipped mdi-content-add" data-position="top" data-delay="50" data-tooltip="Add New User" ></i></a>
 </div>
 {% endblock %}
