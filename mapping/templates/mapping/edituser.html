@@ -50,6 +50,10 @@
       {{ form.department }}
       <label for="{{ form.group.id_for_label }}">{{ form.group.label }}</label>
     </div>
+    <div class="input-field col s6">
+      {{ form.email }}
+      <label for="{{ form.email.id_for_label }}">{{form.email.label}}</label>
+    </div>
   </div>
 
   <button class="btn waves-effect waves-light" type="submit" name="action">Submit

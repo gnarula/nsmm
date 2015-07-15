@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.views import password_reset, password_reset_confirm, password_reset_complete, password_reset_done
 from mapping import views
 
 urlpatterns = patterns('',
@@ -7,6 +10,22 @@ urlpatterns = patterns('',
     # url(r'^$', 'nsmm.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^password/reset$', password_reset, {
+        'template_name': 'mapping/password_reset_form.html',
+        'post_reset_redirect': '/password/reset/done'
+    }),
+    url(r'^password/reset/done$', password_reset_done, {
+        'template_name': 'mapping/password_reset_done.html',
+    }),
+    url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        password_reset_confirm,
+        {
+            'template_name': 'mapping/password_reset_confirm.html',
+            'post_reset_redirect' : '/password/done'
+        },
+        name='password_reset_confirm'
+    ),
+    url(r'^password/done/$', password_reset_complete, {'template_name': 'mapping/password_reset_complete.html'}),
     url(r'^$',views.home),
     url(r'^login$',views.login),
     url(r'^logout$', views.logout),
