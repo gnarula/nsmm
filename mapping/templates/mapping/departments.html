@@ -24,21 +24,25 @@
           <div class="nav-wrapper">
             <a class="head">{{ title }}</a>
             <ul class="header-list right">
-              <li><a href="/">HOME</a></li>
-              <li><a href="/logout">LOGOUT</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="/filter">Filter</a></li>
+              <li><a href="/changepassword">Change Password</a></li>
+              <li><a href="/logout">Logout</a></li>
             </ul>
           </div>
         </div>
       </nav>
       </div>
     </header>
-    <main class="dashboard">
+    <main class="{% block main_class %}dashboard{% endblock %}">
       <div class="container">
+        {% block departments %}
         <div class="row">
           <div class="col l4">
             <a class="dropdown-button waves-effect waves-light btn-large" href="#" data-activates="dropdown{{department.id}}" ><i id="down" class="mdi-navigation-arrow-drop-down right"></i>{{department.name}}</a>
           </div>
         </div>
+        {% endblock %}
         </div>
         {% block action-btn %}
         {% endblock %}

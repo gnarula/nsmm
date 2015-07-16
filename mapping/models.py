@@ -73,8 +73,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     country = models.ForeignKey(Country)
     username = models.CharField(max_length=40, unique=True)
     is_active = models.BooleanField(default=True, null=False, blank=False)
-    department = models.ForeignKey(Department)
-    email = models.EmailField(unique=True)
+    department = models.ForeignKey(Department, null=True, blank=False)
+    email = models.EmailField(unique=True, null=True, blank=False)
+
     objects = UserManager()
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
